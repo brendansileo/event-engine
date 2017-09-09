@@ -9,3 +9,6 @@ class eventQueue:
 	def pop():
 		numEvents-=1;
 		return events.pop(0)
+
+	def getLen():
+		return numEvents
