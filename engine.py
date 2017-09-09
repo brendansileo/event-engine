@@ -1,4 +1,4 @@
-import thread
+import threading
 from queue import eventQueue
 
 class eventEngine:
@@ -15,22 +15,26 @@ class eventEngine:
 	def main(self, q, eventHandlers):
 		done = False
 		while not done:
-			currEvent = q.pop()
-			for h in eventHandlers:
-				print currEvent
-				if currEvent.id == "terminate":
-					done = True
-				elif currEvent.id == h.id:
-					try:
+			try:
+				currEvent = q.pop()
+				for h in eventHandlers:
+					if currEvent["id"] == "terminate":
+						done = True
+					elif currEvent["id"] == h.id:
+						#try:
 						h.run(currEvent)
-					except:
-						h.default()
+						#except:
+						#	h.default()
+			except IndexError:
+				pass
 
 	def init(self):
-		thread.start_new_thread(self.main, (self.q, self.eventHandlers))
+		t=threading.Thread(target=self.main, args=(self.q, self.eventHandlers))
+		t.start()
 
 class eventHandler:
 	id = ""
+	@classmethod
 	def default(self):
 		print "no function defined"
 
