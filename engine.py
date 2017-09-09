@@ -1,13 +1,14 @@
 import threading
 from queue import eventQueue
+from types import MethodType
 
 class eventEngine:
 	q = eventQueue()
 
 	eventHandlers = []
 
-	def addHandler(self, handlers):
-		self.eventHandlers.extend(handlers)
+	def addHandler(self, newId, function):
+		self.eventHandlers.append(eventHandler(newId, function))
 
 	def pushEvent(self, event):
 		self.q.push(event)
@@ -37,4 +38,8 @@ class eventHandler:
 	@classmethod
 	def default(self):
 		print "no function defined"
+
+	def __init__(self, newId, function):
+		self.id = newId
+		self.run = MethodType(function, self, eventHandler)
 
