@@ -2,13 +2,13 @@ class eventQueue:
 	events = []
 	numEvents = 0
 
-	def push(event):
-		events.append(event)
-		numEvents+=1;
+	def push(self, event):
+		self.events.append(event)
+		self.numEvents+=1;
 
-	def pop():
-		numEvents-=1;
-		return events.pop(0)
+	def pop(self):
+		self.numEvents-=1;
+		return self.events.pop(0)
 
-	def getLen():
-		return numEvents
+	def getLen(self):
+		return self.numEvents
